@@ -1,6 +1,6 @@
 name: hermes-kame-api-rotation
 repo: https://github.com/Kame696/kame-api-rotation-for-hermes
-sha: ab0d25f08cd122c79bf550299df529c52686af6f
+sha: c36a5b15484b4504816dee1c6577523d1612686f
 subdir: hermes-kame-api-rotation
 description: "Smart API key rotation: the healthiest key for every call, each 429 / RESOURCE_EXHAUSTED / quota refusal sized from its own evidence, and no rate limit ending your turn."
 maintainer: Kame696
@@ -8,11 +8,11 @@ tier: community
 category: models
 version: "1.8.1.0"
 docs_url: https://github.com/Kame696/kame-api-rotation-for-hermes#readme
-image: https://raw.githubusercontent.com/Kame696/kame-api-rotation-for-hermes/ab0d25f08cd122c79bf550299df529c52686af6f/assets/kame-banner.png
+image: https://raw.githubusercontent.com/Kame696/kame-api-rotation-for-hermes/c36a5b15484b4504816dee1c6577523d1612686f/assets/kame-banner.png
 screenshots:
-  - https://raw.githubusercontent.com/Kame696/kame-api-rotation-for-hermes/ab0d25f08cd122c79bf550299df529c52686af6f/assets/panel-overview.png
-  - https://raw.githubusercontent.com/Kame696/kame-api-rotation-for-hermes/ab0d25f08cd122c79bf550299df529c52686af6f/assets/panel-events.png
-  - https://raw.githubusercontent.com/Kame696/kame-api-rotation-for-hermes/ab0d25f08cd122c79bf550299df529c52686af6f/assets/panel-settings.png
+  - https://raw.githubusercontent.com/Kame696/kame-api-rotation-for-hermes/c36a5b15484b4504816dee1c6577523d1612686f/assets/panel-overview.png
+  - https://raw.githubusercontent.com/Kame696/kame-api-rotation-for-hermes/c36a5b15484b4504816dee1c6577523d1612686f/assets/panel-events.png
+  - https://raw.githubusercontent.com/Kame696/kame-api-rotation-for-hermes/c36a5b15484b4504816dee1c6577523d1612686f/assets/panel-settings.png
 readme: true
 capabilities:
   provides_tools: []
