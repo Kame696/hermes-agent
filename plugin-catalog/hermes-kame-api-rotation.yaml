@@ -1,18 +1,18 @@
 name: hermes-kame-api-rotation
 repo: https://github.com/Kame696/kame-api-rotation-for-hermes
-sha: dffd54f38f72f06dfa8615032fee24f7e1bd7f21
+sha: eb3f8bee1209fb1b52466a33fe24a99ff1d1e0e7
 subdir: hermes-kame-api-rotation
-description: "Smart API key rotation: the healthiest key for every call, each 429 / RESOURCE_EXHAUSTED / quota refusal sized from its own evidence, and no rate limit ending your turn. /kame-keys add|import writes keys to ~/.hermes/auth.json after saving a plaintext backup auth.json.kame-<stamp>.bak beside it (last 5 kept)."
+description: "Smart API key rotation for Hermes: healthy-key selection and evidence-sized quota rests. Disclosure — guarded core dispatch/pool/auxiliary/credential/native-Gemini bindings, scoped and restored on unload; /kame-keys add|import writes configured auth.json with plaintext backups (last 5). Local status heartbeat and key-redacted logs. New pin requests renewed rule-9 review; no self-updater or request racing."
 maintainer: Kame696
 tier: community
 category: models
-version: "1.8.1.0"
+version: "1.8.1.8"
 docs_url: https://github.com/Kame696/kame-api-rotation-for-hermes#readme
-image: https://raw.githubusercontent.com/Kame696/kame-api-rotation-for-hermes/dffd54f38f72f06dfa8615032fee24f7e1bd7f21/assets/kame-banner.png
+image: https://raw.githubusercontent.com/Kame696/kame-api-rotation-for-hermes/eb3f8bee1209fb1b52466a33fe24a99ff1d1e0e7/assets/kame-banner.png
 screenshots:
-  - https://raw.githubusercontent.com/Kame696/kame-api-rotation-for-hermes/dffd54f38f72f06dfa8615032fee24f7e1bd7f21/assets/panel-overview.png
-  - https://raw.githubusercontent.com/Kame696/kame-api-rotation-for-hermes/dffd54f38f72f06dfa8615032fee24f7e1bd7f21/assets/panel-events.png
-  - https://raw.githubusercontent.com/Kame696/kame-api-rotation-for-hermes/dffd54f38f72f06dfa8615032fee24f7e1bd7f21/assets/panel-settings.png
+  - https://raw.githubusercontent.com/Kame696/kame-api-rotation-for-hermes/eb3f8bee1209fb1b52466a33fe24a99ff1d1e0e7/assets/panel-overview.png
+  - https://raw.githubusercontent.com/Kame696/kame-api-rotation-for-hermes/eb3f8bee1209fb1b52466a33fe24a99ff1d1e0e7/assets/panel-events.png
+  - https://raw.githubusercontent.com/Kame696/kame-api-rotation-for-hermes/eb3f8bee1209fb1b52466a33fe24a99ff1d1e0e7/assets/panel-settings.png
 readme: true
 capabilities:
   provides_tools: []
