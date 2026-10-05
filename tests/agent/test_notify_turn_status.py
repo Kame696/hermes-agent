@@ -135,3 +135,31 @@ def test_activity_goes_to_the_thinking_line(monkeypatch):
     )
     assert results == [True]
     assert thinking == ["⏳ waiting on gemini - KAME 13/15 keys healthy"]
+
+
+def test_activity_uses_the_cores_wait_notice_when_the_agent_has_one(monkeypatch):
+    import hermes_cli.middleware as middleware
+    from agent import turn_api_call
+
+    notices = []
+
+    def fake_middleware(api_kwargs, next_call, **context):
+        notify_turn_status("⏳ waiting on gemini - KAME 0/15 keys healthy", kind="activity")
+        return types.SimpleNamespace(choices=[])
+
+    monkeypatch.setattr(middleware, "run_llm_execution_middleware", fake_middleware)
+    monkeypatch.setattr(turn_api_call, "_should_stream", lambda agent: False)
+    agent = types.SimpleNamespace(
+        api_mode="chat_completions", session_id="s", platform="cli", model="m", provider="p",
+        base_url="https://p.invalid", _pending_redirect=False, _model_request_active=None,
+        _pending_redirect_lock=None, _has_pending_redirect=lambda: False,
+        _emit_wait_notice=notices.append,
+        thinking_callback=lambda text: pytest.fail("the wait notice already drew the line"),
+        _emit_status_kind=lambda *a, **k: pytest.fail("activity must not become a status line"),
+    )
+    turn_api_call.perform_api_call(
+        agent, api_kwargs={}, _original_api_kwargs={}, _llm_middleware_trace=[],
+        _moa_prepared_request=None, _retry=None, thinking_spinner=None, retry_count=0,
+        api_call_count=1, api_request_id="r", effective_task_id="t", turn_id="u", interrupted=False,
+    )
+    assert notices == ["⏳ waiting on gemini - KAME 0/15 keys healthy"]
