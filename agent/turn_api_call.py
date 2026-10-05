@@ -132,8 +132,17 @@ def perform_api_call(
             _model_request_active.set()
     # Plugins and provider-supplied clients reach this turn's status rail through
     # ``agent.status_output.notify_turn_status`` while the call runs.
-    _status_token = _TURN_STATUS_SINK.set(
-        lambda kind, message: agent._emit_status_kind(kind, message, origin="notify_turn_status"))
+    def _turn_status_sink(kind: str, message: str) -> bool:
+        if kind == "activity":
+            thinking = getattr(agent, "thinking_callback", None)
+            if not callable(thinking):
+                return False
+            thinking(message)
+            return True
+        agent._emit_status_kind(kind, message, origin="notify_turn_status")
+        return True
+
+    _status_token = _TURN_STATUS_SINK.set(_turn_status_sink)
     try:
         response = run_llm_execution_middleware(
             api_kwargs, _perform_api_call, original_request=_original_api_kwargs,

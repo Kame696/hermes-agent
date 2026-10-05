@@ -23,17 +23,29 @@ _TURN_STATUS_SINK: contextvars.ContextVar = contextvars.ContextVar("hermes_turn_
 TURN_STATUS_MAX_CHARS = 300
 
 
+#: The kinds ``notify_turn_status`` accepts; anything else is treated as ``lifecycle``.
+TURN_STATUS_KINDS = ("lifecycle", "warn", "activity")
+
+
 def notify_turn_status(message: str, *, kind: str = "lifecycle") -> bool:
     """Show ``message`` on the status rail of the turn whose provider call is in flight.
 
     For plugins and provider-supplied clients (``ProviderProfile.create_client``) that do work
     inside a provider call the user would otherwise not see — waiting out a rate limit,
-    switching credentials — and need to say so on the same surfaces as the core's own retry
-    notices: the CLI status line and ``status_callback`` (TUI, desktop, messaging gateway).
+    switching credentials — and need to say so on the same surfaces as the core's own notices.
 
-    ``kind`` is ``"lifecycle"`` (default) or ``"warn"``. Returns ``True`` when the message was
-    handed to a live turn, ``False`` outside a provider call or for an empty message. Never
-    raises: a status line must not be able to fail the call it describes.
+    ``kind``:
+
+    * ``"lifecycle"`` (default) / ``"warn"`` — a status line: the CLI line and
+      ``status_callback`` (TUI, desktop, messaging gateway), like the core's retry notices.
+    * ``"activity"`` — the transient thinking/spinner line (``thinking_callback``: the CLI
+      spinner widget, ``thinking.delta`` on the TUI, desktop and gateway). It never becomes a
+      message, so it is the right channel for a line that updates while a wait counts down.
+      ``False`` when the turn has no thinking indicator.
+
+    Returns ``True`` when the message was handed to a live turn, ``False`` outside a provider
+    call or for an empty message. Never raises: a status line must not be able to fail the
+    call it describes.
     """
     sink = _TURN_STATUS_SINK.get()
     if sink is None or not isinstance(message, str):
@@ -44,8 +56,7 @@ def notify_turn_status(message: str, *, kind: str = "lifecycle") -> bool:
     if len(text) > TURN_STATUS_MAX_CHARS:
         text = text[: TURN_STATUS_MAX_CHARS - 1] + "…"
     try:
-        sink("warn" if kind == "warn" else "lifecycle", text)
-        return True
+        return sink(kind if kind in TURN_STATUS_KINDS else "lifecycle", text) is not False
     except Exception:
         logger.debug("turn status sink failed", exc_info=True)
         return False
