@@ -134,6 +134,13 @@ def perform_api_call(
     # ``agent.status_output.notify_turn_status`` while the call runs.
     def _turn_status_sink(kind: str, message: str) -> bool:
         if kind == "activity":
+            # The core's own channel for a long provider wait: it rewrites the thinking line
+            # and records the turn as active, so a plugin waiting out a rate limit is not
+            # mistaken for a stalled turn.
+            wait_notice = getattr(agent, "_emit_wait_notice", None)
+            if callable(wait_notice):
+                wait_notice(message)
+                return True
             thinking = getattr(agent, "thinking_callback", None)
             if not callable(thinking):
                 return False

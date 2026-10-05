@@ -38,10 +38,11 @@ def notify_turn_status(message: str, *, kind: str = "lifecycle") -> bool:
 
     * ``"lifecycle"`` (default) / ``"warn"`` — a status line: the CLI line and
       ``status_callback`` (TUI, desktop, messaging gateway), like the core's retry notices.
-    * ``"activity"`` — the transient thinking/spinner line (``thinking_callback``: the CLI
-      spinner widget, ``thinking.delta`` on the TUI, desktop and gateway). It never becomes a
-      message, so it is the right channel for a line that updates while a wait counts down.
-      ``False`` when the turn has no thinking indicator.
+    * ``"activity"`` — the transient thinking/spinner line, through the same
+      ``_emit_wait_notice`` the core uses for a long provider wait (the CLI spinner widget,
+      ``thinking.delta`` on the TUI, desktop and gateway; the turn is also recorded as
+      active). It never becomes a message, so it is the right channel for a line that
+      updates while a wait counts down.
 
     Returns ``True`` when the message was handed to a live turn, ``False`` outside a provider
     call or for an empty message. Never raises: a status line must not be able to fail the
