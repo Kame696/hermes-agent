@@ -120,6 +120,7 @@ def perform_api_call(
         )
 
     from hermes_cli.middleware import run_llm_execution_middleware
+    from agent.status_output import _TURN_STATUS_SINK
 
     # The ``_model_request_active`` bracket is taken under the redirect lock when one exists,
     # so redirect() can't observe a half-toggled flag.
@@ -129,6 +130,10 @@ def perform_api_call(
     with _bracket:
         if _model_request_active is not None:
             _model_request_active.set()
+    # Plugins and provider-supplied clients reach this turn's status rail through
+    # ``agent.status_output.notify_turn_status`` while the call runs.
+    _status_token = _TURN_STATUS_SINK.set(
+        lambda kind, message: agent._emit_status_kind(kind, message, origin="notify_turn_status"))
     try:
         response = run_llm_execution_middleware(
             api_kwargs, _perform_api_call, original_request=_original_api_kwargs,
@@ -138,6 +143,7 @@ def perform_api_call(
             api_call_count=api_call_count, middleware_trace=list(_llm_middleware_trace),
         )
     finally:
+        _TURN_STATUS_SINK.reset(_status_token)
         with _bracket:
             if _model_request_active is not None:
                 _model_request_active.clear()
