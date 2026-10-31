@@ -80,7 +80,7 @@ def test_worker_threads_started_for_the_call_inherit_the_rail():
 
 
 def test_perform_api_call_binds_the_rail_for_the_call_only(monkeypatch):
-    import hermes_cli.middleware as middleware
+    from hermes_cli import middleware
     from agent import turn_api_call
 
     emitted = []
@@ -110,7 +110,7 @@ def test_perform_api_call_binds_the_rail_for_the_call_only(monkeypatch):
 
 
 def test_activity_goes_to_the_thinking_line(monkeypatch):
-    import hermes_cli.middleware as middleware
+    from hermes_cli import middleware
     from agent import turn_api_call
 
     thinking = []
@@ -138,7 +138,7 @@ def test_activity_goes_to_the_thinking_line(monkeypatch):
 
 
 def test_activity_uses_the_cores_wait_notice_when_the_agent_has_one(monkeypatch):
-    import hermes_cli.middleware as middleware
+    from hermes_cli import middleware
     from agent import turn_api_call
 
     notices = []
